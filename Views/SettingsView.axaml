@@ -221,6 +221,24 @@
                     <!-- Divider -->
                     <Border Height="1" Background="#21262D" Margin="24,0"/>
 
+                    <!-- Silent start row -->
+                    <Grid ColumnDefinitions="*,Auto"
+                          Margin="24,20,24,20"
+                          VerticalAlignment="Center">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="0">
+                            <TextBlock Text="{Binding L[Settings.SilentStart.Label]}"
+                                       Classes="RowLabel"/>
+                            <TextBlock Text="{Binding L[Settings.SilentStart.Desc]}"
+                                       Classes="RowDesc"/>
+                        </StackPanel>
+                        <ToggleButton Grid.Column="1"
+                                      Classes="PillSwitch"
+                                      IsChecked="{Binding SilentStart}"/>
+                    </Grid>
+
+                    <!-- Divider -->
+                    <Border Height="1" Background="#21262D" Margin="24,0"/>
+
                     <!-- Minimize to tray row -->
                     <Grid ColumnDefinitions="*,Auto"
                           Margin="24,20,24,20"

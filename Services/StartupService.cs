@@ -2,6 +2,7 @@ using System;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
 
+
 namespace ztools.Services;
 
 /// <summary>
@@ -31,9 +32,11 @@ public static class StartupService
     /// <summary>
     /// Enables or disables the startup entry.
     /// Pass <c>true</c> to add the entry, <c>false</c> to remove it.
+    /// When <paramref name="silentStart"/> is true the entry will include the
+    /// <c>--silent</c> flag so the app starts without showing its main window.
     /// </summary>
     /// <returns>True if the operation succeeded.</returns>
-    public static bool SetEnabled(bool enable)
+    public static bool SetEnabled(bool enable, bool silentStart = false)
     {
         try
         {
@@ -49,8 +52,12 @@ public static class StartupService
 
                 if (string.IsNullOrWhiteSpace(exePath)) return false;
 
-                // Quote the path in case it contains spaces
-                key.SetValue(AppName, $"\"{exePath}\"");
+                // Quote the path in case it contains spaces; append --silent if requested
+                var value = silentStart
+                    ? $"\"{exePath}\" --silent"
+                    : $"\"{exePath}\"";
+
+                key.SetValue(AppName, value);
             }
             else
             {
@@ -65,5 +72,17 @@ public static class StartupService
         {
             return false;
         }
+    }
+
+    /// <summary>
+    /// Re-writes the startup entry (if it exists) to reflect the current
+    /// <paramref name="silentStart"/> preference without toggling the enabled
+    /// state.  No-op when startup is currently disabled.
+    /// </summary>
+    /// <returns>True if the operation succeeded or was a no-op.</returns>
+    public static bool UpdateSilentFlag(bool silentStart)
+    {
+        if (!IsEnabled()) return true;          // nothing to update
+        return SetEnabled(enable: true, silentStart: silentStart);
     }
 }

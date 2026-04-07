@@ -47,6 +47,20 @@ public partial class App : Application
                 }
             };
 
+            // Silent start: keep the window hidden so only the tray icon is visible.
+            // The user can restore the window via the tray menu at any time.
+            if (Program.SilentStart && settings.SilentStart)
+            {
+                // Switch shutdown mode so the process doesn't exit when no
+                // window is visible — the tray icon keeps the app alive until
+                // the user explicitly chooses "Exit".
+                desktop.ShutdownMode = Avalonia.Controls.ShutdownMode.OnExplicitShutdown;
+            }
+            else
+            {
+                mainWindow.Show();
+            }
+
             // Clean up tray icon on app exit
             desktop.Exit += (_, _) => TrayService.Instance.Dispose();
         }

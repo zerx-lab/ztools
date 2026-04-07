@@ -34,6 +34,9 @@
   "Settings.StartWithWindows.Label": "开机自启",
   "Settings.StartWithWindows.Desc": "Windows 启动时自动运行 ZTools。",
 
+  "Settings.SilentStart.Label": "免打扰启动",
+  "Settings.SilentStart.Desc": "开机自启时直接后台运行，不弹出主窗口。",
+
   "Settings.MinimizeToTray.Label": "最小化到托盘",
   "Settings.MinimizeToTray.Desc": "关闭时保持 ZTools 在系统托盘中运行。",
 

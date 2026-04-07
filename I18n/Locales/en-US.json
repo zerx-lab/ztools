@@ -34,6 +34,9 @@
   "Settings.StartWithWindows.Label": "Start with Windows",
   "Settings.StartWithWindows.Desc": "Launch ZTools automatically when Windows starts.",
 
+  "Settings.SilentStart.Label": "Silent Start",
+  "Settings.SilentStart.Desc": "When launched at startup, run in the background without showing the main window.",
+
   "Settings.MinimizeToTray.Label": "Minimize to Tray",
   "Settings.MinimizeToTray.Desc": "Keep ZTools running in the system tray when closed.",
 

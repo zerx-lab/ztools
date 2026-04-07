@@ -41,8 +41,9 @@ public partial class SettingsViewModel : ViewModelBase
 
     partial void OnStartWithWindowsChanged(bool value)
     {
-        // Write / remove registry entry
-        var success = StartupService.SetEnabled(value);
+        // Write / remove registry entry, passing current silent preference
+        var s = SettingsService.Load();
+        var success = StartupService.SetEnabled(value, s.SilentStart);
 
         // If the registry write failed, revert the toggle silently
         if (!success)
@@ -51,9 +52,21 @@ public partial class SettingsViewModel : ViewModelBase
             return;
         }
 
-        var s = SettingsService.Load();
         s.StartWithWindows = value;
         SettingsService.Save(s);
+    }
+
+    [ObservableProperty]
+    private bool _silentStart = false;
+
+    partial void OnSilentStartChanged(bool value)
+    {
+        var s = SettingsService.Load();
+        s.SilentStart = value;
+        SettingsService.Save(s);
+
+        // Keep the registry startup entry in sync with the new flag
+        StartupService.UpdateSilentFlag(value);
     }
 
     [ObservableProperty]
@@ -111,6 +124,8 @@ public partial class SettingsViewModel : ViewModelBase
         // General — read real state from registry / settings
         // StartWithWindows reflects the actual registry state, not just the saved setting
         _startWithWindows = StartupService.IsEnabled();
+
+        _silentStart = settings.SilentStart;
 
         _minimizeToTray = settings.MinimizeToTray;
 
