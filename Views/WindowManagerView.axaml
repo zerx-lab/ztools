@@ -1,0 +1,335 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ztools.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ztools.Views.WindowManagerView"
+             x:DataType="vm:WindowManagerViewModel"
+             Background="Transparent">
+
+    <UserControl.Styles>
+
+        <!-- ── Section label ────────────────────────────────────────────────── -->
+        <Style Selector="TextBlock.SectionLabel">
+            <Setter Property="FontSize"      Value="10"/>
+            <Setter Property="FontWeight"    Value="SemiBold"/>
+            <Setter Property="Foreground"    Value="#484F58"/>
+            <Setter Property="LetterSpacing" Value="1.5"/>
+            <Setter Property="Margin"        Value="0,0,0,16"/>
+        </Style>
+
+        <!-- ── Setting row label ────────────────────────────────────────────── -->
+        <Style Selector="TextBlock.RowLabel">
+            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#E6EDF3"/>
+        </Style>
+
+        <!-- ── Setting row description ──────────────────────────────────────── -->
+        <Style Selector="TextBlock.RowDesc">
+            <Setter Property="FontSize"   Value="11"/>
+            <Setter Property="Foreground" Value="#8B949E"/>
+            <Setter Property="Margin"     Value="0,3,0,0"/>
+        </Style>
+
+        <!-- ── Toggle ToggleButton (pill switch) ────────────────────────────── -->
+        <Style Selector="ToggleButton.PillSwitch">
+            <Setter Property="Width"           Value="44"/>
+            <Setter Property="Height"          Value="24"/>
+            <Setter Property="Padding"         Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background"      Value="#30363D"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="CornerRadius"    Value="12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment"   Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="TrackBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="12"
+                            Width="44" Height="24">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.18" Easing="CubicEaseInOut"/>
+                            </Transitions>
+                        </Border.Transitions>
+                        <Canvas Width="44" Height="24" ClipToBounds="False">
+                            <Border x:Name="Thumb"
+                                    Width="18" Height="18"
+                                    CornerRadius="9"
+                                    Background="White"
+                                    Canvas.Left="3"
+                                    Canvas.Top="3">
+                                <Border.BoxShadow>0 1 4 0 #44000000</Border.BoxShadow>
+                                <Border.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Canvas.Left" Duration="0:0:0.18" Easing="CubicEaseInOut"/>
+                                    </Transitions>
+                                </Border.Transitions>
+                            </Border>
+                        </Canvas>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="ToggleButton.PillSwitch:checked /template/ Border#TrackBorder">
+            <Setter Property="Background" Value="#00D4FF"/>
+        </Style>
+        <Style Selector="ToggleButton.PillSwitch:checked /template/ Border#Thumb">
+            <Setter Property="Canvas.Left" Value="23"/>
+        </Style>
+        <Style Selector="ToggleButton.PillSwitch:pointerover /template/ Border#TrackBorder">
+            <Setter Property="Opacity" Value="0.88"/>
+        </Style>
+
+        <!-- ── Hotkey ComboBox ───────────────────────────────────────────────── -->
+        <Style Selector="ComboBox.HotkeyCombo">
+            <Setter Property="Background"      Value="#1C2128"/>
+            <Setter Property="BorderBrush"     Value="#30363D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground"      Value="#E6EDF3"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="Height"          Value="36"/>
+            <Setter Property="Width"           Value="180"/>
+            <Setter Property="CornerRadius"    Value="8"/>
+            <Setter Property="Padding"         Value="10,0,8,0"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SCROLL WRAPPER
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+
+        <StackPanel Margin="32,28,32,32" Spacing="0">
+
+            <!-- ── Page header ──────────────────────────────────────────────── -->
+            <StackPanel Margin="0,0,0,28">
+                <TextBlock Text="{Binding L[WM.Title]}"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="#E6EDF3"
+                           Margin="0,0,0,6"/>
+                <TextBlock Text="{Binding L[WM.Subtitle]}"
+                           FontSize="13" Foreground="#8B949E"/>
+            </StackPanel>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 CONTROL SECTION — enable / disable toggle
+                 ══════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{Binding L[WM.Section.Control]}"
+                       Classes="SectionLabel"/>
+
+            <Border Background="#161B22"
+                    BorderBrush="#30363D" BorderThickness="1"
+                    CornerRadius="10" Padding="24"
+                    Margin="0,0,0,16">
+                <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="0">
+                        <TextBlock Text="{Binding L[WM.Enable.Label]}"
+                                   Classes="RowLabel"/>
+                        <TextBlock Text="{Binding L[WM.Enable.Desc]}"
+                                   Classes="RowDesc"/>
+                    </StackPanel>
+                    <ToggleButton Grid.Column="1"
+                                  Classes="PillSwitch"
+                                  IsChecked="{Binding IsEnabled}"/>
+                </Grid>
+            </Border>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 HOTKEY SECTION — modifier key + drag-move shortcut badge
+                 ══════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{Binding L[WM.Section.Hotkey]}"
+                       Classes="SectionLabel"
+                       Margin="0,8,0,16"/>
+
+            <Border Background="#161B22"
+                    BorderBrush="#30363D" BorderThickness="1"
+                    CornerRadius="10"
+                    Margin="0,0,0,16">
+                <StackPanel>
+
+                    <!-- Row 1: modifier picker -->
+                    <Grid ColumnDefinitions="*,Auto"
+                          Margin="24,20,24,20"
+                          VerticalAlignment="Center">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="0">
+                            <TextBlock Text="{Binding L[WM.Hotkey.Label]}"
+                                       Classes="RowLabel"/>
+                            <TextBlock Text="{Binding L[WM.Hotkey.Desc]}"
+                                       Classes="RowDesc"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1"
+                                  Classes="HotkeyCombo"
+                                  ItemsSource="{Binding AvailableModifiers}"
+                                  SelectedItem="{Binding SelectedModifier}"/>
+                    </Grid>
+
+                    <!-- Divider -->
+                    <Border Height="1" Background="#21262D" Margin="24,0"/>
+
+                    <!-- Row 2: drag-move shortcut badge -->
+                    <Grid ColumnDefinitions="*,Auto"
+                          Margin="24,20,24,20"
+                          VerticalAlignment="Center">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="0">
+                            <TextBlock Text="{Binding L[WM.DragMove.Label]}"
+                                       Classes="RowLabel"/>
+                            <TextBlock Text="{Binding L[WM.DragMove.Desc]}"
+                                       Classes="RowDesc"/>
+                        </StackPanel>
+
+                        <!-- Badge: "热键 + 左键" -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Spacing="4"
+                                    VerticalAlignment="Center">
+                            <Border Background="#1C2128"
+                                    BorderBrush="#30363D" BorderThickness="1"
+                                    CornerRadius="6" Padding="10,5">
+                                <TextBlock Text="{Binding SelectedModifier}"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="#00D4FF"/>
+                            </Border>
+                            <TextBlock Text="+"
+                                       FontSize="12" Foreground="#484F58"
+                                       VerticalAlignment="Center"/>
+                            <Border Background="#1C2128"
+                                    BorderBrush="#30363D" BorderThickness="1"
+                                    CornerRadius="6" Padding="10,5">
+                                <TextBlock Text="{Binding L[WM.DragMove.MouseBtn]}"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="#00D4FF"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 USAGE SECTION — quick-reference guide cards
+                 ══════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{Binding L[WM.Section.Usage]}"
+                       Classes="SectionLabel"
+                       Margin="0,8,0,16"/>
+
+            <Border Background="#161B22"
+                    BorderBrush="#30363D" BorderThickness="1"
+                    CornerRadius="10"
+                    Margin="0,0,0,16">
+                <StackPanel>
+
+                    <!-- Usage row 1: Move -->
+                    <Grid ColumnDefinitions="Auto,*"
+                          Margin="24,20,24,20"
+                          VerticalAlignment="Center">
+
+                        <!-- Move icon (cross-arrows) -->
+                        <Border Grid.Column="0"
+                                Width="40" Height="40"
+                                CornerRadius="10"
+                                Background="#0D1117"
+                                BorderBrush="#30363D" BorderThickness="1"
+                                Margin="0,0,16,0"
+                                VerticalAlignment="Center">
+                            <Viewbox Width="22" Height="22"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="#00D4FF"
+                                          Data="M13,6 V11 H18 V13 H13 V18 H11 V13 H6 V11 H11 V6 Z"/>
+                                    <Path Fill="#00D4FF"
+                                          Data="M12,2 L9,5 H11 V7 H13 V5 H15 Z"/>
+                                    <Path Fill="#00D4FF"
+                                          Data="M12,22 L15,19 H13 V17 H11 V19 H9 Z"/>
+                                    <Path Fill="#00D4FF"
+                                          Data="M2,12 L5,9 V11 H7 V13 H5 V15 Z"/>
+                                    <Path Fill="#00D4FF"
+                                          Data="M22,12 L19,15 V13 H17 V11 H19 V9 Z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <!-- Text + shortcut badge -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Background="#0D2232"
+                                        BorderBrush="#1C4A6E" BorderThickness="1"
+                                        CornerRadius="5" Padding="8,3">
+                                    <TextBlock FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#00D4FF">
+                                        <Run Text="{Binding SelectedModifier}"/>
+                                        <Run Text=" + LButton"/>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Text="{Binding L[WM.Usage.Move]}"
+                                       FontSize="12" Foreground="#8B949E"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Divider -->
+                    <Border Height="1" Background="#21262D" Margin="24,0"/>
+
+                    <!-- Usage row 2: Resize -->
+                    <Grid ColumnDefinitions="Auto,*"
+                          Margin="24,20,24,20"
+                          VerticalAlignment="Center">
+
+                        <!-- Resize icon (corner arrows) -->
+                        <Border Grid.Column="0"
+                                Width="40" Height="40"
+                                CornerRadius="10"
+                                Background="#0D1117"
+                                BorderBrush="#30363D" BorderThickness="1"
+                                Margin="0,0,16,0"
+                                VerticalAlignment="Center">
+                            <Viewbox Width="22" Height="22"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center">
+                                <Canvas Width="24" Height="24">
+                                    <!-- bottom-right resize arrows -->
+                                    <Path Fill="#BD93F9"
+                                          Data="M22,22 H16 L18.29,19.71 L14.59,16 L16,14.59 L19.71,18.29 L22,16 Z"/>
+                                    <!-- top-left corner hint -->
+                                    <Path Fill="#BD93F9"
+                                          Data="M2,2 V8 L4.29,5.71 L8,9.41 L9.41,8 L5.71,4.29 L8,2 Z"/>
+                                    <!-- connecting diagonal line -->
+                                    <Path Fill="#484F58"
+                                          Data="M10,10 L14,14 L13.3,14.7 L9.3,10.7 Z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <!-- Text + shortcut badge -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Background="#1A1030"
+                                        BorderBrush="#4A2E7A" BorderThickness="1"
+                                        CornerRadius="5" Padding="8,3">
+                                    <TextBlock FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#BD93F9">
+                                        <Run Text="{Binding SelectedModifier}"/>
+                                        <Run Text=" + RButton"/>
+                                    </TextBlock>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Text="{Binding L[WM.Usage.Resize]}"
+                                       FontSize="12" Foreground="#8B949E"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

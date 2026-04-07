@@ -1,0 +1,42 @@
+# Build output
+bin/
+obj/
+
+# .NET / NuGet
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Publish output
+publish/
+out/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.rsuser
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+build_out.txt
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# User-specific settings
+*.user
+launchSettings.json

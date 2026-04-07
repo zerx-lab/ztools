@@ -1,0 +1,117 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ztools.App"
+             xmlns:local="using:ztools"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- ── Core Backgrounds ─────────────────────────────────────── -->
+            <Color x:Key="ColorBackground">#0D1117</Color>
+            <Color x:Key="ColorSurface">#161B22</Color>
+            <Color x:Key="ColorSurfaceElevated">#1C2128</Color>
+            <Color x:Key="ColorSurfaceOverlay">#21262D</Color>
+
+            <!-- ── Borders ───────────────────────────────────────────────── -->
+            <Color x:Key="ColorBorder">#30363D</Color>
+            <Color x:Key="ColorBorderSubtle">#21262D</Color>
+
+            <!-- ── Accent ────────────────────────────────────────────────── -->
+            <Color x:Key="ColorAccentPrimary">#00D4FF</Color>
+            <Color x:Key="ColorAccentSecondary">#0EA5E9</Color>
+            <Color x:Key="ColorAccentGlow">#4D00D4FF</Color>
+
+            <!-- ── Text ──────────────────────────────────────────────────── -->
+            <Color x:Key="ColorTextPrimary">#E6EDF3</Color>
+            <Color x:Key="ColorTextSecondary">#8B949E</Color>
+            <Color x:Key="ColorTextMuted">#484F58</Color>
+
+            <!-- ── Semantic ──────────────────────────────────────────────── -->
+            <Color x:Key="ColorSuccess">#3FB950</Color>
+            <Color x:Key="ColorWarning">#D29922</Color>
+            <Color x:Key="ColorDanger">#F85149</Color>
+
+            <!-- ── SolidColorBrushes ─────────────────────────────────────── -->
+            <SolidColorBrush x:Key="BrushBackground"       Color="{StaticResource ColorBackground}"/>
+            <SolidColorBrush x:Key="BrushSurface"          Color="{StaticResource ColorSurface}"/>
+            <SolidColorBrush x:Key="BrushSurfaceElevated"  Color="{StaticResource ColorSurfaceElevated}"/>
+            <SolidColorBrush x:Key="BrushSurfaceOverlay"   Color="{StaticResource ColorSurfaceOverlay}"/>
+
+            <SolidColorBrush x:Key="BrushBorder"           Color="{StaticResource ColorBorder}"/>
+            <SolidColorBrush x:Key="BrushBorderSubtle"     Color="{StaticResource ColorBorderSubtle}"/>
+
+            <SolidColorBrush x:Key="BrushAccentPrimary"    Color="{StaticResource ColorAccentPrimary}"/>
+            <SolidColorBrush x:Key="BrushAccentSecondary"  Color="{StaticResource ColorAccentSecondary}"/>
+            <SolidColorBrush x:Key="BrushAccentGlow"       Color="{StaticResource ColorAccentGlow}"/>
+
+            <SolidColorBrush x:Key="BrushTextPrimary"      Color="{StaticResource ColorTextPrimary}"/>
+            <SolidColorBrush x:Key="BrushTextSecondary"    Color="{StaticResource ColorTextSecondary}"/>
+            <SolidColorBrush x:Key="BrushTextMuted"        Color="{StaticResource ColorTextMuted}"/>
+
+            <SolidColorBrush x:Key="BrushSuccess"          Color="{StaticResource ColorSuccess}"/>
+            <SolidColorBrush x:Key="BrushWarning"          Color="{StaticResource ColorWarning}"/>
+            <SolidColorBrush x:Key="BrushDanger"           Color="{StaticResource ColorDanger}"/>
+
+            <!-- ── Gradient brushes ──────────────────────────────────────── -->
+            <LinearGradientBrush x:Key="BrushSidebarGradient" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#161B22" Offset="0"/>
+                <GradientStop Color="#0D1117" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BrushHeaderGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#0D1117" Offset="0"/>
+                <GradientStop Color="#161B22" Offset="0.5"/>
+                <GradientStop Color="#0D1117" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BrushAccentGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                <GradientStop Color="#00D4FF" Offset="0"/>
+                <GradientStop Color="#0EA5E9" Offset="1"/>
+            </LinearGradientBrush>
+
+            <!-- ── Sizing tokens ─────────────────────────────────────────── -->
+            <x:Double x:Key="TitleBarHeight">40</x:Double>
+            <x:Double x:Key="SidebarCollapsedWidth">64</x:Double>
+            <x:Double x:Key="SidebarExpandedWidth">220</x:Double>
+            <x:Double x:Key="StatusBarHeight">28</x:Double>
+            <x:Double x:Key="CardWidth">210</x:Double>
+            <x:Double x:Key="CardHeight">172</x:Double>
+            <CornerRadius x:Key="CardCornerRadius">10</CornerRadius>
+            <CornerRadius x:Key="BadgeCornerRadius">4</CornerRadius>
+            <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
+            <CornerRadius x:Key="InputCornerRadius">8</CornerRadius>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <!-- ── Global font defaults ──────────────────────────────────────── -->
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Inter,Segoe UI,system-ui,sans-serif"/>
+            <Setter Property="Foreground"  Value="{StaticResource BrushTextPrimary}"/>
+            <Setter Property="FontSize"    Value="13"/>
+        </Style>
+
+        <Style Selector="Window">
+            <Setter Property="Background" Value="{StaticResource BrushBackground}"/>
+            <Setter Property="FontFamily" Value="Inter,Segoe UI,system-ui,sans-serif"/>
+        </Style>
+
+        <!-- ── Scrollbar subtlety ────────────────────────────────────────── -->
+        <Style Selector="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="ScrollViewer">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+    </Application.Styles>
+
+</Application>

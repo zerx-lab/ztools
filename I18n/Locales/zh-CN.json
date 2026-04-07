@@ -1,0 +1,56 @@
+{
+  "Nav.WindowManager": "窗口管理",
+  "Nav.Settings": "设置",
+  "Nav.Collapse": "收起",
+
+  "WM.Title": "窗口管理",
+  "WM.Subtitle": "使用热键 + 鼠标随意移动或调整任意窗口大小。",
+
+  "WM.Section.Control": "功能开关",
+  "WM.Enable.Label": "启用窗口管理",
+  "WM.Enable.Desc": "全局鼠标钩子，拦截热键 + 鼠标事件以移动或调整窗口。",
+
+  "WM.Section.Hotkey": "热键配置",
+  "WM.Hotkey.Label": "修饰键",
+  "WM.Hotkey.Desc": "按住此键并拖拽鼠标来操作窗口。",
+  "WM.DragMove.Label": "拖动快捷键",
+  "WM.DragMove.Desc": "当前生效的移动窗口组合键。",
+  "WM.DragMove.MouseBtn": "鼠标左键",
+
+  "WM.Section.Usage": "使用说明",
+  "WM.Usage.Move": "按住修饰键，再按住鼠标左键并拖拽，可将窗口移动到屏幕任意位置。",
+  "WM.Usage.Resize": "按住修饰键，再按住鼠标右键并拖拽，可从右下角方向调整窗口大小。",
+
+  "Settings.Title": "设置",
+  "Settings.Subtitle": "根据您的偏好配置 ZTools。",
+  "Settings.Section.General": "通用",
+  "Settings.Section.Language": "语言",
+  "Settings.Section.About": "关于",
+
+  "Settings.Language.Label": "界面语言",
+  "Settings.Language.Desc": "选择显示语言，可能需要重启生效。",
+  "Settings.Language.FollowSystem": "跟随系统",
+
+  "Settings.StartWithWindows.Label": "开机自启",
+  "Settings.StartWithWindows.Desc": "Windows 启动时自动运行 ZTools。",
+
+  "Settings.MinimizeToTray.Label": "最小化到托盘",
+  "Settings.MinimizeToTray.Desc": "关闭时保持 ZTools 在系统托盘中运行。",
+
+  "Settings.About.Version": "版本",
+  "Settings.About.Build": "构建",
+  "Settings.About.Platform": "平台",
+  "Settings.About.Runtime": "运行时",
+  "Settings.About.CopyVersion": "复制版本信息",
+  "Settings.About.Copied": "已复制！",
+
+  "Status.Suite": "Windows 增强工具集",
+  "Status.WindowManager": "窗口管理已就绪",
+
+  "Common.Save": "保存",
+  "Common.Cancel": "取消",
+  "Common.Reset": "恢复默认",
+
+  "Tray.Show": "显示 ZTools",
+  "Tray.Exit": "退出"
+}

@@ -1,0 +1,56 @@
+{
+  "Nav.WindowManager": "Window Manager",
+  "Nav.Settings": "Settings",
+  "Nav.Collapse": "Collapse",
+
+  "WM.Title": "Window Manager",
+  "WM.Subtitle": "Move or resize any window using a hotkey + mouse gesture.",
+
+  "WM.Section.Control": "CONTROL",
+  "WM.Enable.Label": "Enable Window Manager",
+  "WM.Enable.Desc": "Global mouse hook that intercepts hotkey + mouse events to move or resize windows.",
+
+  "WM.Section.Hotkey": "HOTKEY",
+  "WM.Hotkey.Label": "Modifier Key",
+  "WM.Hotkey.Desc": "Hold this key and drag the mouse to manipulate windows.",
+  "WM.DragMove.Label": "Drag Shortcut",
+  "WM.DragMove.Desc": "The currently active shortcut for moving windows.",
+  "WM.DragMove.MouseBtn": "Left Button",
+
+  "WM.Section.Usage": "USAGE",
+  "WM.Usage.Move": "Hold the modifier key, then hold the left mouse button and drag to move the window anywhere on screen.",
+  "WM.Usage.Resize": "Hold the modifier key, then hold the right mouse button and drag to resize the window from the bottom-right corner.",
+
+  "Settings.Title": "Settings",
+  "Settings.Subtitle": "Configure ZTools to match your preferences.",
+  "Settings.Section.General": "GENERAL",
+  "Settings.Section.Language": "LANGUAGE",
+  "Settings.Section.About": "ABOUT",
+
+  "Settings.Language.Label": "Interface Language",
+  "Settings.Language.Desc": "Choose display language. Restart may be required.",
+  "Settings.Language.FollowSystem": "Follow System",
+
+  "Settings.StartWithWindows.Label": "Start with Windows",
+  "Settings.StartWithWindows.Desc": "Launch ZTools automatically when Windows starts.",
+
+  "Settings.MinimizeToTray.Label": "Minimize to Tray",
+  "Settings.MinimizeToTray.Desc": "Keep ZTools running in the system tray when closed.",
+
+  "Settings.About.Version": "Version",
+  "Settings.About.Build": "Build",
+  "Settings.About.Platform": "Platform",
+  "Settings.About.Runtime": "Runtime",
+  "Settings.About.CopyVersion": "Copy Version Info",
+  "Settings.About.Copied": "Copied!",
+
+  "Status.Suite": "Windows Enhancement Suite",
+  "Status.WindowManager": "Window Manager Ready",
+
+  "Common.Save": "Save",
+  "Common.Cancel": "Cancel",
+  "Common.Reset": "Reset to Defaults",
+
+  "Tray.Show": "Show ZTools",
+  "Tray.Exit": "Exit"
+}
