@@ -112,6 +112,27 @@
             <Setter Property="Background" Value="Transparent"/>
         </Style>
 
+        <!-- ── Suppress focus rings globally ────────────────────────────── -->
+        <!-- Remove adorner-layer focus indicator -->
+        <Style Selector="Button">
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+        <Style Selector="ToggleButton">
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+        <!-- Remove FluentTheme template-internal focus border -->
+        <Style Selector="Button:focus-visible /template/ ContentPresenter">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush"     Value="Transparent"/>
+        </Style>
+        <Style Selector="ToggleButton:focus-visible /template/ ContentPresenter">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush"     Value="Transparent"/>
+        </Style>
+
     </Application.Styles>
 
 </Application>

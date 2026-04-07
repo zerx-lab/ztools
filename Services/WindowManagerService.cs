@@ -175,6 +175,7 @@ namespace ztools.Services
                 case NativeMethods.WM_LBUTTONUP:
                     if (_session == SessionKind.Move)
                     {
+                        HideBorders();
                         _session = SessionKind.None;
                         _targetWindow = IntPtr.Zero;
                     }
@@ -204,6 +205,13 @@ namespace ztools.Services
         // ── Session begin (hook thread) ──────────────────────────────────────
         private bool TryBeginSession(SessionKind kind)
         {
+            // Always clean up any leftover borders from a previous session before
+            // starting a new one.  This covers the race where WM_LBUTTONDOWN
+            // arrives before WM_RBUTTONUP (OS event ordering is not guaranteed
+            // during rapid button transitions), so the Resize→Move switch would
+            // otherwise leave the preview rectangle on screen indefinitely.
+            HideBorders();
+
             if (!NativeMethods.GetCursorPos(out NativeMethods.POINT cursor)) return false;
 
             IntPtr hwnd = NativeMethods.WindowFromPoint(cursor);
@@ -406,15 +414,21 @@ namespace ztools.Services
             {
                 if (_borders[i] == IntPtr.Zero) continue;
 
-                // SWP_HIDEWINDOW is synchronous: the window is guaranteed to be
-                // invisible before this call returns, unlike ShowWindow(SW_HIDE)
-                // which only posts a message.  Move to (0,0,1,1) as extra safety.
+                // ShowWindow(SW_HIDE) is the most reliable way to hide a window.
+                // The previous SWP_HIDEWINDOW path could fail silently for TOPMOST
+                // layered windows when combined with SWP_NOZORDER in certain race
+                // conditions (e.g. modifier released before right button, or no
+                // further mouse events arriving after session end).
+                NativeMethods.ShowWindow(_borders[i], NativeMethods.SW_HIDE);
+
+                // Belt-and-suspenders: also move the window off-screen at 1×1 so
+                // that even if ShowWindow is somehow deferred, the window occupies
+                // no visible area. Do NOT use SWP_NOZORDER here — we intentionally
+                // drop out of the TOPMOST band so a subsequent ShowBorders() call
+                // that re-applies HWND_TOPMOST starts from a clean state.
                 NativeMethods.SetWindowPos(
                     _borders[i], IntPtr.Zero,
-                    0, 0, 1, 1,
-                    NativeMethods.SWP_NOMOVE |
-                    NativeMethods.SWP_NOSIZE |
-                    NativeMethods.SWP_NOZORDER |
+                    -32000, -32000, 1, 1,
                     NativeMethods.SWP_NOACTIVATE |
                     SWP_HIDEWINDOW);
             }
