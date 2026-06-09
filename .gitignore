@@ -16,6 +16,7 @@ artifacts/
 # Publish output
 publish/
 out/
+dist/
 
 # Visual Studio / Rider
 .vs/
