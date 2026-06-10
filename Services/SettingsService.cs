@@ -11,8 +11,6 @@ public static class SettingsService
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ztools");
     private static readonly string SettingsPath = Path.Combine(SettingsDir, "settings.json");
 
-    private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
-
     public static AppSettings Load()
     {
         try
@@ -20,7 +18,7 @@ public static class SettingsService
             if (File.Exists(SettingsPath))
             {
                 var json = File.ReadAllText(SettingsPath);
-                return JsonSerializer.Deserialize<AppSettings>(json, Options) ?? new AppSettings();
+                return JsonSerializer.Deserialize(json, AppJsonContext.Default.AppSettings) ?? new AppSettings();
             }
         }
         catch { /* return defaults on any error */ }
@@ -32,7 +30,7 @@ public static class SettingsService
         try
         {
             Directory.CreateDirectory(SettingsDir);
-            File.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings, Options));
+            File.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings, AppJsonContext.Default.AppSettings));
         }
         catch { /* silently fail */ }
     }

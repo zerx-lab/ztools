@@ -44,7 +44,8 @@ Program.cs → App (Application)
 
 - **No solution file.** Open/build with `dotnet build ztools.csproj` or just `dotnet build` from the project root.
 - **`[STAThread]` on `Main`** is required for Win32 clipboard and COM interop — do not remove it.
-- **Avalonia Diagnostics** (`Avalonia.Diagnostics` package) is included unconditionally but only useful in Debug. Press F12 inside the running app to open the inspector.
+- **Native AOT publish** (`PublishAot=true` in `.csproj`) requires the MSVC linker (VS "Desktop development with C++" workload). `scripts\build-installer.ps1` locates it via vswhere and runs publish inside a vcvars64 environment. Keep code reflection-free: `ViewLocator` uses a static type registry, JSON uses source generation (`Services/AppJsonContext.cs`). New VM/View pairs must be added to the `ViewLocator` registry manually.
+- **Avalonia.Diagnostics was removed in Avalonia 12** — DevTools is now a standalone external tool; the F12 in-app inspector is gone.
 - **Locale JSON files are `EmbeddedResource`**, not `Content`. Adding a new locale file requires updating the `EmbeddedResource` glob in `.csproj` (currently `I18n/Locales/*.json`) and adding the code to `LocaleManager`.
 - **Sidebar width** is clamped 52–320 px in `MainWindowViewModel`. The re-entrancy guard on `SidebarWidth`/`IsSidebarExpanded` setters is intentional — do not simplify it away.
 - **Theme switching** (light/dark/system) is persisted but not yet fully implemented in the VM — the `ThemeLight`/`ThemeSystem` toggles save the setting but do not change the running theme. `RequestedThemeVariant="Dark"` is hardcoded in `App.axaml`.

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
+using ztools.Services;
 
 namespace ztools.I18n;
 
@@ -48,13 +49,13 @@ public sealed class LocaleManager : INotifyPropertyChanged
             var fallbackName = "ztools.I18n.Locales.en-US.json";
             using var fallback = asm.GetManifestResourceStream(fallbackName);
             if (fallback != null)
-                _strings = JsonSerializer.Deserialize<Dictionary<string, string>>(fallback) ?? new();
+                _strings = JsonSerializer.Deserialize(fallback, AppJsonContext.Default.DictionaryStringString) ?? new();
             else
                 _strings = new();
         }
         else
         {
-            _strings = JsonSerializer.Deserialize<Dictionary<string, string>>(stream) ?? new();
+            _strings = JsonSerializer.Deserialize(stream, AppJsonContext.Default.DictionaryStringString) ?? new();
         }
 
         _currentLocale = localeCode;

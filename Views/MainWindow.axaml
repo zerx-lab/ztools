@@ -13,10 +13,7 @@
         Width="900" Height="640"
         MinWidth="640" MinHeight="480"
         WindowStartupLocation="CenterScreen"
-        SystemDecorations="None"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="-1"
+        WindowDecorations="None"
         Background="#0D1117"
         FontFamily="Inter,Segoe UI,system-ui,sans-serif">
 

@@ -40,17 +40,36 @@ try {
     New-Item -ItemType Directory -Path $publishDir | Out-Null
     if (-not (Test-Path $distDir)) { New-Item -ItemType Directory -Path $distDir | Out-Null }
 
-    Write-Host "==> dotnet publish (self-contained, single-file)" -ForegroundColor Cyan
-    & dotnet publish ztools.csproj `
-        -c Release `
-        -r win-x64 `
-        --self-contained true `
-        -p:PublishSingleFile=true `
-        -p:EnableCompressionInSingleFile=true `
-        -p:IncludeNativeLibrariesForSelfExtract=true `
-        -p:DebugType=None `
-        -p:DebugSymbols=false `
-        -o $publishDir
+    Write-Host "==> dotnet publish (Native AOT)" -ForegroundColor Cyan
+
+    # Native AOT needs the MSVC linker. ilc's auto-detection (findvcvarsall.bat)
+    # is unreliable outside a developer prompt, so when VS is present we run the
+    # whole publish inside a vcvars64 environment with the linker pinned.
+    $publishArgs = 'publish ztools.csproj -c Release -r win-x64 -p:DebugType=None -p:DebugSymbols=false -o "' + $publishDir + '"'
+
+    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+    $vcvars = $null
+    $binDir = $null
+    if (Test-Path $vswhere) {
+        $vsRoot = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if ($vsRoot) {
+            $vcvars = Join-Path $vsRoot 'VC\Auxiliary\Build\vcvars64.bat'
+            $msvcVer = (Get-Content (Join-Path $vsRoot 'VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt') -ErrorAction SilentlyContinue)
+            if ($msvcVer) {
+                $candidate = Join-Path $vsRoot "VC\Tools\MSVC\$($msvcVer.Trim())\bin\Hostx64\x64"
+                if (Test-Path (Join-Path $candidate 'link.exe')) { $binDir = $candidate }
+            }
+            if (-not (Test-Path $vcvars)) { $vcvars = $null }
+        }
+    }
+
+    if ($vcvars -and $binDir) {
+        $pinned = " -p:IlcUseEnvironmentalTools=true -p:CppLinker=`"$binDir\link.exe`" -p:CppLibCreator=`"$binDir\lib.exe`""
+        cmd /c "`"$vcvars`" >nul 2>&1 && dotnet $publishArgs$pinned"
+    } else {
+        Write-Warning 'MSVC toolchain not located via vswhere; relying on ilc auto-detection.'
+        cmd /c "dotnet $publishArgs"
+    }
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
 
     # Drop .pdb / .xml that slip past DebugType=None.
