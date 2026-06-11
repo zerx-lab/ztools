@@ -14,7 +14,8 @@
         MinWidth="640" MinHeight="480"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="None"
-        Background="#0D1117"
+        Background="Transparent"
+        TransparencyLevelHint="Transparent"
         FontFamily="Inter,Segoe UI,system-ui,sans-serif">
 
     <Design.DataContext>
@@ -113,8 +114,10 @@
         <Border x:Name="ResizeBottomRight" Width="12"  Height="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" Cursor="BottomRightCorner" ZIndex="101"/>
 
         <!-- Main chrome container -->
-        <Border BorderBrush="#30363D" BorderThickness="1" CornerRadius="10"
+        <Border x:Name="RootChrome"
+                BorderBrush="#30363D" BorderThickness="1" CornerRadius="10"
                 Background="#0D1117"
+                ClipToBounds="True"
                 BoxShadow="0 8 56 0 #BB000000, 0 2 12 0 #66000000"
                 ZIndex="0">
 
@@ -124,6 +127,7 @@
                      ROW 0 — CUSTOM TITLE BAR
                      ══════════════════════════════════════════════════════════ -->
                 <Border Grid.Row="0"
+                        x:Name="TitleBarBorder"
                         Background="#161B22"
                         BorderBrush="#30363D"
                         BorderThickness="0,0,0,1"

@@ -28,9 +28,8 @@ public partial class App : Application
             {
                 DataContext = new MainWindowViewModel(),
             };
-            desktop.MainWindow = mainWindow;
 
-            // Initialize tray icon — must happen after window is assigned
+            // Initialize tray icon — must happen after window is created
             TrayService.Instance.Initialize(mainWindow);
 
             // Keep tray menu labels in sync when locale changes
@@ -51,10 +50,20 @@ public partial class App : Application
                 // window is visible — the tray icon keeps the app alive until
                 // the user explicitly chooses "Exit".
                 desktop.ShutdownMode = Avalonia.Controls.ShutdownMode.OnExplicitShutdown;
+
+                // IMPORTANT: do NOT assign desktop.MainWindow here.
+                // ClassicDesktopStyleApplicationLifetime.Start() automatically
+                // calls MainWindow?.Show() after this method returns, which
+                // would defeat the silent start. Assign it after the main loop
+                // has started so TopLevel lookups (clipboard etc.) still work.
+                Avalonia.Threading.Dispatcher.UIThread.Post(
+                    () => desktop.MainWindow = mainWindow,
+                    Avalonia.Threading.DispatcherPriority.Background);
             }
             else
             {
-                mainWindow.Show();
+                // The lifetime shows MainWindow automatically after init.
+                desktop.MainWindow = mainWindow;
             }
 
             // Clean up tray icon on app exit

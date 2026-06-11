@@ -18,6 +18,7 @@ public class ViewLocator : IDataTemplate
     {
         [typeof(SettingsViewModel)] = static () => new SettingsView(),
         [typeof(WindowManagerViewModel)] = static () => new WindowManagerView(),
+        [typeof(DevCleanerViewModel)] = static () => new DevCleanerView(),
     };
 
     public Control? Build(object? param)

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ztools.Models;
 
 public class AppSettings
@@ -10,4 +12,5 @@ public class AppSettings
     public double SidebarWidth { get; set; } = 220;
     public bool WindowManagerEnabled { get; set; } = true;
     public string WindowManagerHotkey { get; set; } = "Alt";
+    public List<string> CleanerPaths { get; set; } = [];
 }

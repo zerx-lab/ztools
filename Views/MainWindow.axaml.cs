@@ -20,6 +20,33 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         this.Loaded += OnWindowLoaded;
+
+        // Drop rounded corners when maximized, restore them otherwise —
+        // the window itself is transparent so corners would leave gaps.
+        this.PropertyChanged += (_, e) =>
+        {
+            if (e.Property == WindowStateProperty)
+                UpdateChromeCorners();
+        };
+    }
+
+    private void UpdateChromeCorners()
+    {
+        var maximized = WindowState == WindowState.Maximized;
+
+        var chrome = this.FindControl<Border>("RootChrome");
+        var titleBar = this.FindControl<Border>("TitleBarBorder");
+        var btnClose = this.FindControl<Button>("BtnClose");
+
+        if (chrome != null)
+        {
+            chrome.CornerRadius = maximized ? new CornerRadius(0) : new CornerRadius(10);
+            chrome.BorderThickness = maximized ? new Thickness(0) : new Thickness(1);
+        }
+        if (titleBar != null)
+            titleBar.CornerRadius = maximized ? new CornerRadius(0) : new CornerRadius(10, 10, 0, 0);
+        if (btnClose != null)
+            btnClose.CornerRadius = maximized ? new CornerRadius(0) : new CornerRadius(0, 10, 0, 0);
     }
 
     private void OnWindowLoaded(object? sender, RoutedEventArgs e)
